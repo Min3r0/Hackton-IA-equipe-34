@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechCorp Assistant Financier</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="title">
+        <span class="logo">💹</span>
+        <h1>TechCorp Assistant Financier</h1>
+      </div>
+      <div class="status" id="status">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">Vérification...</span>
+      </div>
+    </header>
+
+    <main class="chat-container">
+      <div class="chat-window" id="chatWindow">
+        <div class="message assistant">
+          <div class="bubble">
+            Bonjour 👋 Je suis l'assistant financier de TechCorp. Posez-moi vos questions sur la finance, l'investissement, le budget ou le trading.
+          </div>
+        </div>
+      </div>
+
+      <form class="input-bar" id="chatForm">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Écrivez votre question..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit" id="sendBtn">Envoyer</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

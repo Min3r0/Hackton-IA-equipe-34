@@ -1,16 +1,3 @@
-"""
-prod-exp-2_finetune_finance.py
-
-Fine-tuning LoRA (QLoRA 4-bit via Unsloth) de Phi-3.5-mini-instruct sur le dataset
-financier decontamine (finance_dataset_final_v2.json), suite a la decouverte d'un
-pattern de backdoor dans l'adapter existant (models/phi3_financial).
-
-Prerequis :
-- Environnement avec unsloth, torch (CUDA), trl, transformers, datasets, peft
-- GPU NVIDIA avec ~6-8 Go de VRAM (teste sur RTX 3050 8 Go)
-- Fichier ../DATA/finance_dataset_final_v2.json present (sortie de prod-step-1_finance_validation.py)
-"""
-
 from unsloth import FastLanguageModel
 import torch
 from datasets import Dataset
@@ -18,6 +5,7 @@ from trl import SFTTrainer
 from transformers import TrainingArguments
 import json
 import os
+from unsloth.chat_templates import train_on_responses_only
 
 # ------------------------------------------------------------------
 # 0. CONFIG
@@ -127,6 +115,7 @@ training_args = TrainingArguments(
     seed=42,
     output_dir="outputs_finance_lora_v2",
     save_strategy="epoch",
+    save_only_model=True,
     eval_strategy="steps",
     eval_steps=50,
     report_to="none",
@@ -144,6 +133,12 @@ trainer = SFTTrainer(
     max_seq_length=max_seq_length,
     args=training_args,
     packing=False,
+)
+
+trainer = train_on_responses_only(
+    trainer,
+    instruction_part="<|user|>\n",
+    response_part="<|assistant|>\n",
 )
 
 print("\nDebut de l'entrainement...\n")
